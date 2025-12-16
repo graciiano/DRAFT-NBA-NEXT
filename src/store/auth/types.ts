@@ -12,10 +12,6 @@ export const AUTH_REGISTER_FAILURE = 'auth/REGISTER_FAILURE';
 export const AUTH_LOGOUT = 'auth/LOGOUT';
 export const AUTH_RESTORE_SESSION = 'auth/RESTORE_SESSION';
 
-export const AUTH_GET_ME_REQUEST = 'auth/GET_ME_REQUEST';
-export const AUTH_GET_ME_SUCCESS = 'auth/GET_ME_SUCCESS';
-export const AUTH_GET_ME_FAILURE = 'auth/GET_ME_FAILURE';
-
 // State Interface
 export interface AuthState {
   user: User | null;
@@ -77,21 +73,10 @@ export interface LogoutAction {
 
 export interface RestoreSessionAction {
   type: typeof AUTH_RESTORE_SESSION;
-  payload: string;
-}
-
-export interface GetMeRequestAction {
-  type: typeof AUTH_GET_ME_REQUEST;
-}
-
-export interface GetMeSuccessAction {
-  type: typeof AUTH_GET_ME_SUCCESS;
-  payload: User;
-}
-
-export interface GetMeFailureAction {
-  type: typeof AUTH_GET_ME_FAILURE;
-  payload: string;
+  payload: {
+    token: string;
+    user: User;
+  };
 }
 
 export type AuthActionTypes =
@@ -102,7 +87,4 @@ export type AuthActionTypes =
   | RegisterSuccessAction
   | RegisterFailureAction
   | LogoutAction
-  | RestoreSessionAction
-  | GetMeRequestAction
-  | GetMeSuccessAction
-  | GetMeFailureAction;
+  | RestoreSessionAction;

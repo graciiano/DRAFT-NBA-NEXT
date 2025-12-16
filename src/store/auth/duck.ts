@@ -1,7 +1,4 @@
 import {
-  AUTH_GET_ME_FAILURE,
-  AUTH_GET_ME_REQUEST,
-  AUTH_GET_ME_SUCCESS,
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
@@ -31,7 +28,6 @@ export default function authReducer(state = initialState, action: AuthActionType
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
     case AUTH_REGISTER_REQUEST:
-    case AUTH_GET_ME_REQUEST:
       return {
         ...state,
         loading: true,
@@ -57,7 +53,6 @@ export default function authReducer(state = initialState, action: AuthActionType
 
     case AUTH_LOGIN_FAILURE:
     case AUTH_REGISTER_FAILURE:
-    case AUTH_GET_ME_FAILURE:
       return {
         ...state,
         loading: false,
@@ -72,16 +67,9 @@ export default function authReducer(state = initialState, action: AuthActionType
     case AUTH_RESTORE_SESSION:
       return {
         ...state,
-        token: action.payload,
+        token: action.payload.token,
+        user: action.payload.user,
         isAuthenticated: true,
-      };
-
-    case AUTH_GET_ME_SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-        loading: false,
-        error: null,
       };
 
     default:
@@ -133,21 +121,7 @@ export const logout = () => ({
   type: AUTH_LOGOUT,
 });
 
-export const restoreSession = (token: string): RestoreSessionAction => ({
+export const restoreSession = (token: string, user: any): RestoreSessionAction => ({
   type: AUTH_RESTORE_SESSION,
-  payload: token,
-});
-
-export const getMeRequest = () => ({
-  type: AUTH_GET_ME_REQUEST,
-});
-
-export const getMeSuccess = (user: any) => ({
-  type: AUTH_GET_ME_SUCCESS,
-  payload: user,
-});
-
-export const getMeFailure = (error: string) => ({
-  type: AUTH_GET_ME_FAILURE,
-  payload: error,
+  payload: { token, user },
 });

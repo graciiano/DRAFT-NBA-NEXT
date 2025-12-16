@@ -2,14 +2,14 @@
 
 import React, { useEffect } from 'react';
 
+import ToastProvider from '@/components/Toast';
 import { store } from '@/store';
-import { getMeRequest, restoreSession } from '@/store/auth/duck';
+import { restoreSession } from '@/store/auth/duck';
 import { GlobalStyle } from '@/styles/GlobalStyle';
 import { theme } from '@/styles/theme';
-import { tokenStorage } from '@/utils/token';
+import { getUserFromToken, isTokenValid, tokenStorage } from '@/utils/token';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import ToastProvider from '@/components/Toast';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -41,9 +41,11 @@ function AppInitializer({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Restore session from localStorage
     const token = tokenStorage.get();
-    if (token) {
-      store.dispatch(restoreSession(token));
-      store.dispatch(getMeRequest());
+    if (token && isTokenValid(token)) {
+      const user = getUserFromToken(token);
+      if (user) {
+        store.dispatch(restoreSession(token, user));
+      }
     }
   }, []);
 

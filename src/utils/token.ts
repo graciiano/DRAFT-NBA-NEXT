@@ -1,6 +1,18 @@
 // Utility para gerenciar token JWT
 const TOKEN_KEY = '@NBA2KDraft:token';
 
+export interface TokenPayload {
+  sub: string;
+  email: string;
+  roles: string[];
+  name: string;
+  lastName: string;
+  nickname: string;
+  number: string;
+  iat: number;
+  exp: number;
+}
+
 export const tokenStorage = {
   get: (): string | null => {
     if (typeof window === 'undefined') return null;
@@ -28,4 +40,27 @@ export const isTokenValid = (token: string | null): boolean => {
   } catch {
     return false;
   }
+};
+
+export const decodeToken = (token: string): TokenPayload | null => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload;
+  } catch {
+    return null;
+  }
+};
+
+export const getUserFromToken = (token: string): any | null => {
+  const payload = decodeToken(token);
+  if (!payload) return null;
+
+  return {
+    email: payload.email,
+    name: payload.name,
+    lastname: payload.lastName,
+    nickname: payload.nickname,
+    number: payload.number,
+    roles: payload.roles,
+  };
 };
