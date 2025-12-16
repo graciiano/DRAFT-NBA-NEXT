@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
+import Loading from '@/components/Loading';
 import Modal from '@/components/Modal';
 import Skeleton from '@/components/Skeleton';
 import { useWebSocket } from '@/hooks/useWebSocket';
@@ -163,7 +164,7 @@ export default function DraftDetailPage() {
   const positions: Position[] = ['PG', 'SG', 'SF', 'PF', 'C'];
 
   if (!isAuthenticated || !user) {
-    return null;
+    return <Loading text="Verificando autenticação..." />;
   }
 
   return (

@@ -2,7 +2,15 @@ import { authService } from '@/services/auth/auth';
 import { tokenStorage } from '@/utils/token';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import { getMeFailure, getMeSuccess, loginFailure, loginSuccess, registerFailure, registerSuccess } from './duck';
+import {
+  getMeFailure,
+  getMeRequest,
+  getMeSuccess,
+  loginFailure,
+  loginSuccess,
+  registerFailure,
+  registerSuccess,
+} from './duck';
 import {
   AUTH_GET_ME_REQUEST,
   AUTH_LOGIN_REQUEST,
@@ -20,6 +28,9 @@ function* loginSaga(action: LoginRequestAction) {
     tokenStorage.set(response.token);
 
     yield put(loginSuccess(response.user, response.token));
+
+    // Buscar dados atualizados do usuário
+    yield put(getMeRequest());
   } catch (error: any) {
     const errorMessage = error.response?.data?.message || 'Erro ao fazer login';
     yield put(loginFailure(errorMessage));
