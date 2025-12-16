@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { loginRequest } from '@/store/auth/duck';
-import { selectAuthError, selectAuthLoading } from '@/store/auth/selector';
+import { selectAuthError, selectAuthLoading, selectIsAuthenticated } from '@/store/auth/selector';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -82,11 +82,19 @@ export default function LoginPage() {
   const router = useRouter();
   const loading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  // Redireciona para home se já estiver autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

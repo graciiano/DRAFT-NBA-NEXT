@@ -9,6 +9,7 @@ import { theme } from '@/styles/theme';
 import { tokenStorage } from '@/utils/token';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
+import ToastProvider from '@/components/Toast';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,8 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <AppInitializer>{children}</AppInitializer>
+            <ToastProvider>
+              <GlobalStyle />
+              <AppInitializer>{children}</AppInitializer>
+            </ToastProvider>
           </ThemeProvider>
         </Provider>
       </body>
