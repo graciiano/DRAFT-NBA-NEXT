@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -11,6 +11,7 @@ import { selectIsAdmin, selectIsAuthenticated, selectIsOrganizer, selectUser } f
 import { fetchDraftDetailRequest, signupDraftRequest } from '@/store/drafts/duck';
 import { selectCurrentDraft, selectDraftsLoading, selectSignupLoading } from '@/store/drafts/selector';
 import { fetchWaitlistRequest } from '@/store/waitlist/duck';
+import { Position } from '@/types/api';
 import { useParams, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -121,6 +122,12 @@ export default function DraftDetailPage() {
   const isAdmin = useSelector(selectIsAdmin);
   const isOrganizer = useSelector(selectIsOrganizer);
 
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [selectedPositions, setSelectedPositions] = useState<Position[]>([]);
+
+  // Verifica se o usuário pode gerenciar a waitlist (admin ou organizador)
+  const canManageWaitlist = isAdmin || isOrganizer;
+
   // Enable WebSocket for real-time updates
   useWebSocket(draftId);
 
@@ -136,8 +143,10 @@ export default function DraftDetailPage() {
     }
   }, [isAuthenticated, draftId, dispatch, router, canManageWaitlist]);
 
-  const handlePositionToggle = (position: string) => {
-    setSelectedPositions(prev => (prev.includes(position) ? prev.filter(p => p !== position) : [...prev, position]));
+  const handlePositionToggle = (position: Position) => {
+    setSelectedPositions((prev: Position[]) =>
+      prev.includes(position) ? prev.filter((p: Position) => p !== position) : [...prev, position]
+    );
   };
 
   const handleSignup = () => {
@@ -151,7 +160,7 @@ export default function DraftDetailPage() {
     setSelectedPositions([]);
   };
 
-  const positions = ['PG', 'SG', 'SF', 'PF', 'C'];
+  const positions: Position[] = ['PG', 'SG', 'SF', 'PF', 'C'];
 
   if (!isAuthenticated || !user) {
     return null;

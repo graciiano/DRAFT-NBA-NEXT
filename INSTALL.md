@@ -19,8 +19,8 @@ npm install
 Crie o arquivo `.env.local`:
 
 ```env
-API_BASE_URL=http://localhost:8080
-WS_URL=http://localhost:8080
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+NEXT_PUBLIC_WS_URL=http://localhost:8080
 NEXT_PUBLIC_APP_NAME=NBA 2K Draft System
 NEXT_PUBLIC_DEFAULT_LOCALE=pt
 ```

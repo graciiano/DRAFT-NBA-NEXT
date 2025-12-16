@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, GetDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
@@ -26,7 +26,7 @@ export const store = configureStore({
     drafts: draftsReducer,
     waitlist: waitlistReducer,
   },
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware: GetDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: false,
       serializableCheck: false,

@@ -15,7 +15,7 @@ export const useWebSocket = (draftId?: number) => {
     if (!draftId) return;
 
     // Connect to WebSocket
-    const socket = io(process.env.WS_URL || 'http://localhost:8080', {
+    const socket = io(process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:8080', {
       path: '/ws',
       transports: ['websocket'],
     });

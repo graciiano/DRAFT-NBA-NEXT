@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'ax
 
 // Create Axios Instance
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.API_BASE_URL || 'http://localhost:8080',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ api.interceptors.request.use(
 
 // Response Interceptor - Handle Errors
 api.interceptors.response.use(
-  response => response,
+  (response: any) => response,
   (error: AxiosError) => {
     // Handle 401 Unauthorized
     if (error.response?.status === 401) {
