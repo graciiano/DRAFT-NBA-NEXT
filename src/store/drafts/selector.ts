@@ -21,5 +21,5 @@ export const selectSignupLoading = createSelector([selectDraftsState], (drafts: 
 export const selectSignupError = createSelector([selectDraftsState], (drafts: DraftsState) => drafts.signupError);
 
 export const selectOpenDrafts = createSelector([selectDrafts], (drafts: Draft[]) =>
-  drafts.filter((draft: Draft) => draft.status === 'OPEN')
+  drafts.filter((draft: Draft) => draft.status === 'DRAFT_OPEN')
 );

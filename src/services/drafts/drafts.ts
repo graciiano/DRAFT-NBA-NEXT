@@ -1,4 +1,4 @@
-import { Draft, DraftDetail, SignupRequest, SignupResponse } from '@/types/api';
+import { Draft, DraftDetail, PageResponse, SignupRequest, SignupResponse } from '@/types/api';
 
 import api from '../api';
 
@@ -7,8 +7,8 @@ export const draftsService = {
    * Listar todos os drafts
    */
   getDrafts: async (): Promise<Draft[]> => {
-    const response = await api.get<Draft[]>('/api/v1/drafts');
-    return response.data;
+    const response = await api.get<PageResponse<Draft>>('/api/v1/drafts');
+    return response.data.content;
   },
 
   /**

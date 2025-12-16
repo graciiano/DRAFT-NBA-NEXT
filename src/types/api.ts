@@ -39,14 +39,53 @@ export interface RegisterResponse {
 
 export type Position = 'PG' | 'SG' | 'SF' | 'PF' | 'C';
 
-export type DraftStatus = 'OPEN' | 'CLOSED';
+export type DraftStatus = 'DRAFT_OPEN' | 'DRAFT_CLOSED' | 'DRAFT_IN_PROGRESS' | 'DRAFT_COMPLETED';
 
 export interface Draft {
   id: number;
   title: string;
   description: string;
+  organizerId: number;
+  rules: {
+    teamSize: number;
+    snakeDraft: boolean;
+    allowTrades: boolean;
+    pickTimeSeconds: number;
+  };
+  scheduledAt: string;
+  maxPlayers: number;
   status: DraftStatus;
+  allowRedraft: boolean;
   createdAt: string;
+}
+
+export interface PageableSort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
+
+export interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: PageableSort;
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
+
+export interface PageResponse<T> {
+  content: T[];
+  pageable: Pageable;
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  sort: PageableSort;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
 }
 
 export interface DraftDetail {
